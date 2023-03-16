@@ -6,5 +6,4 @@ class RemoveResultFromTableUser < ActiveRecord::Migration[7.0]
   def down
     add_column :users, :result
   end
-
 end
