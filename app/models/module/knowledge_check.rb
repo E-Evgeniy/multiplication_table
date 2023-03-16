@@ -4,13 +4,16 @@ require_relative './dialog'
 
 # Module with calculation
 module KnowledgeCheck
+  DIADAZON_FOR_CHECK = (0..2)
+  NUM_COMBINATIONS = DIADAZON_FOR_CHECK.size * DIADAZON_FOR_CHECK.size
+
   def check_name(name)
     User.create(name:) if User.find_by(name:).nil?
   end
 
   def numbers_generate
     ar = []
-    11.times do |i|
+    DIADAZON_FOR_CHECK.size.times do |i|
       ar.push(i)
     end
     ar
@@ -28,7 +31,7 @@ module KnowledgeCheck
     data_for_question = create_data_for_question
     data_with_result = create_data_with_result
 
-    121.times do
+    NUM_COMBINATIONS.times do
       data_for_question = calc_data_for_question(data_for_question)
       question(data_for_question['m'], data_for_question['n'])
       answer = enter_answer
@@ -43,6 +46,7 @@ module KnowledgeCheck
     data_with_result['true_count'] = 0
     data_with_result['false_question'] = []
     data_with_result['false_answer'] = []
+    data_with_result['total_combinations'] = NUM_COMBINATIONS
     data_with_result
   end
 
@@ -86,7 +90,7 @@ module KnowledgeCheck
     while i == false
       q0 = find_element(arrays_with_indexes['0'])
       q1 = find_element(arrays_with_indexes['1'])
-      i = true unless (questions.include? "#{q0} * #{q1} = ") || questions.length > 121
+      i = true unless (questions.include? "#{q0} * #{q1} = ") || questions.length > NUM_COMBINATIONS
     end
     elements['m'] = q0
     elements['n'] = q1
